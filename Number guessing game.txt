@@ -1,0 +1,26 @@
+@echo off
+setlocal enabledelayedexpansion
+
+rem Generate a random number between 1 and 50
+set /a targetNumber=%random% %% 50 + 1
+set guessesRemaining=20
+set highScore=0
+
+:guessLoop
+if %guessesRemaining% == 0 goto gameOver
+set /p guess=Enter your guess: 
+if %guess% == %targetNumber% goto correct
+set /a guessesRemaining=%guessesRemaining%-1
+if %guess% gtr %targetNumber% echo Your guess is too high. Try a lower number.
+if %guess% lss %targetNumber% echo Your guess is too low. Try a higher number.
+goto guessLoop
+
+:correct
+echo Congratulations! You guessed the right number!
+if %guessesRemaining% GTR %highScore% set highScore=%guessesRemaining%
+goto gameOver
+
+:gameOver
+echo Game over.
+echo Your high score is: %highScore%
+pause
